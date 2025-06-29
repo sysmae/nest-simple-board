@@ -1,0 +1,36 @@
+# 게시물 전체 가져오기
+GET  http://localhost:3000/board
+
+###
+
+# 게시물 ID로 가져오기
+GET http://localhost:3000/board/1
+
+###
+# 게시물 생성
+POST http://localhost:3000/board
+Content-Type: application/json
+
+{
+  "title": "새 게시물",
+  "content": "게시물 내용"
+}
+
+
+#### 게시물 수정
+PUT http://localhost:3000/board/11
+Content-Type: application/json
+
+{
+  "title": "수정된 게시물",
+  "content": "수정된 게시물 내용"
+}
+
+#### 게시물 삭제
+DELETE http://localhost:3000/board/11
+Content-Type: application/json
+
+{
+  "title": "삭제된 게시물",
+  "content": "삭제된 게시물 내용"
+}
