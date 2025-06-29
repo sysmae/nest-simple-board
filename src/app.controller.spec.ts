@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Ip } from './decorators/ip.decorator';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -9,7 +9,23 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn((key: string) => {
+              // ConfigService의 get 메서드를 모킹
+              switch (key) {
+                case 'ENVIRONMENT':
+                  return 'test';
+                default:
+                  return null;
+              }
+            }),
+          },
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);
@@ -17,7 +33,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello('127.0.0.1')).toBe('Hello World!');
+      expect(appController.getHello()).toBe('Hello World!');
     });
   });
 

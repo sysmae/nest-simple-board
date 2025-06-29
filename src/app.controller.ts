@@ -20,12 +20,12 @@ export class AppController {
   private readonly logger = new Logger();
 
   @Get()
-  getHello(@Ip() ip: string): string {
-    this.logger.log(`IP Address: ${ip}`);
+  getHello(): string {
+    // this.logger.log(`IP Address: ${ip}`);
     // this.logger.log(`Environment: ${this.configService.get('ENVIRONMENT')}`);
 
-    console.log(`IP Address: ${ip}`);
-    console.log(`Environment: ${this.configService.get('ENVIRONMENT')}`);
+    // console.log(`IP Address: ${ip}`);
+    // console.log(`Environment: ${this.configService.get('ENVIRONMENT')}`);
     return this.appService.getHello();
 
     // Exception 예제: NotFoundException
