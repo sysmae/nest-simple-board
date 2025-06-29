@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
+import { BoardEntity } from './entities/board.entity';
 
 @Injectable()
 export class BoardService {
-  private boards = [
+  private boards: BoardEntity[] = [
     {
       id: 1,
       title: '첫 번째 게시글',
@@ -55,39 +58,46 @@ export class BoardService {
     },
   ];
 
-  findAll() {
+  findAll(): BoardEntity[] {
     return this.boards;
   }
 
-  find(id: number) {
+  find(id: number): BoardEntity | undefined {
     return this.boards.find((board) => board.id === id);
   }
 
-  getNextId() {
+  getNextId(): number {
     return this.boards.sort((a, b) => b.id - a.id)[0].id + 1;
   }
 
-  getBoardIndex(id: number) {
+  getBoardIndex(id: number): number {
     return this.boards.findIndex((board) => board.id === id);
   }
 
-  create(data: { title: string; content: string }) {
-    const newBoard: { id: number; title: string; content: string } = {
+  create(data: CreateBoardDto): BoardEntity {
+    const newBoard: BoardEntity = {
       id: this.getNextId(),
       ...data,
     };
     this.boards.push(newBoard);
     return newBoard;
   }
-  update(id: number, data: { title?: string; content?: string }) {
+  update(id: number, data: UpdateBoardDto): BoardEntity | null {
     const index = this.getBoardIndex(id);
     if (index === -1) {
       return null;
     }
-    this.boards[index] = { ...this.boards[index], ...data };
+
+    // undefined 값들을 제거하여 부분 업데이트 구현
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([, value]) => value !== undefined),
+    );
+
+    this.boards[index] = { ...this.boards[index], ...filteredData };
     return this.boards[index];
   }
-  delete(id: number) {
+
+  delete(id: number): BoardEntity | null {
     const index = this.getBoardIndex(id);
     if (index === -1) {
       return null;

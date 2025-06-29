@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -43,7 +44,7 @@ export class BoardController {
     type: Number,
   })
   getNextId() {
-    return this.boardService.getNextId();
+    return { nextId: this.boardService.getNextId() };
   }
 
   @Get(':id')
@@ -63,9 +64,8 @@ export class BoardController {
     status: 404,
     description: '게시글을 찾을 수 없습니다.',
   })
-  find(@Param('id') id: number) {
-    // TODO: 파이프로 이후 id를 검증할 수 있습니다.
-    return this.boardService.find(+id);
+  find(@Param('id', ParseIntPipe) id: number) {
+    return this.boardService.find(id);
   }
 
   @Post()
@@ -98,8 +98,8 @@ export class BoardController {
     status: 404,
     description: '게시글을 찾을 수 없습니다.',
   })
-  update(@Param('id') id: number, @Body() data: UpdateBoardDto) {
-    return this.boardService.update(+id, data);
+  update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateBoardDto) {
+    return this.boardService.update(id, data);
   }
 
   @Delete(':id')
@@ -119,7 +119,7 @@ export class BoardController {
     status: 404,
     description: '게시글을 찾을 수 없습니다.',
   })
-  delete(@Param('id') id: number) {
-    return this.boardService.delete(+id);
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.boardService.delete(id);
   }
 }
