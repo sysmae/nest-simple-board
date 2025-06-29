@@ -10,7 +10,7 @@ async function bootstrap() {
     .setTitle('Simple Board API')
     .setDescription('간단한 게시판 API 문서')
     .setVersion('1.0')
-    .addTag('boards', '게시글 관련 API')
+    .addTag('Board', '게시글 관련 API')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -19,7 +19,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { BoardEntity } from './entities/board.entity';
 
-@ApiTags('boards')
+@ApiTags('Board')
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
